@@ -2,6 +2,7 @@ package bank.banking_system.controller;
 
 import bank.banking_system.model.Account;
 import bank.banking_system.service.BankService;
+import bank.banking_system.service.BankServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class BankController {
     public Account createAccount(@RequestBody Account account){
         return bankService.createAccount(account);
     }
-//Deposit using json body
+//Deposit using JSON body
     @PostMapping("/deposit")
     public Account deposit(@RequestBody Map<String, Object> request){
         String accNo=(String) request.get("accNo");
@@ -39,5 +40,10 @@ public class BankController {
         Double amount= Double.valueOf(request.get("amount").toString());
         bankService.transfer(from, to, amount);
         return "Transfer Successful";
+    }
+
+    @GetMapping("/balance/{accountNumber}")
+    public Double checkBalance(@PathVariable String accountNumber){
+        return bankService.checkBalance(accountNumber);
     }
 }
