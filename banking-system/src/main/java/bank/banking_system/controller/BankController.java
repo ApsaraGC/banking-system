@@ -3,11 +3,13 @@ package bank.banking_system.controller;
 import bank.banking_system.model.Account;
 import bank.banking_system.service.BankService;
 import bank.banking_system.service.BankServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Tag(name="Bank APIs", description = "Banking operations")
 @RestController
 @RequestMapping("/api/bank")
 @RequiredArgsConstructor
