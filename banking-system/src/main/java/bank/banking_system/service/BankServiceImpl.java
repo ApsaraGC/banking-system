@@ -25,11 +25,20 @@ public class BankServiceImpl implements BankService {
 
     }
     @Override
-    public Account deposit(String accountNumber, Double amount){
-        Account account=getAccount(accountNumber);
-        account.setBalance(account.getBalance() + amount);
-        saveTransaction(account, "Deposit", amount);
-        return accountRepository.save(account);
+    public Account deposit(String accNo, Double amount){
+        Account account = accountRepository.findByAccountNumber(accNo)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        account.setBalance(account.getBalance()+ amount);
+        accountRepository.save(account);
+
+        Transaction transaction=new Transaction();
+        transaction.setAccount(account);
+        transaction.setType("Deposit");
+        transaction.setTransactionTime(LocalDateTime.now());
+        transactionRepository.save(transaction);
+
+        return account;
+
 
 
     }
@@ -43,53 +52,32 @@ public class BankServiceImpl implements BankService {
 
         }
         account.setBalance(account.getBalance() - amount);
-        saveTransaction(account, "Withdraw", amount);
-        return accountRepository.save(account);
+        accountRepository.save(account);
+
+        Transaction transaction=new Transaction();
+        transaction.setAccount(account);
+        transaction.setAmount(amount);
+        transaction.setType("Withdraw");
+        transaction.setTransactionTime(LocalDateTime.now());
+        transactionRepository.save(transaction);
+        return account;
 
     }
     @Override
-    public void transfer(String fromAccount, String toAccount, Double amount){
-        Account sender=getAccount(fromAccount);
-        Account receiver=getAccount(toAccount);
-
-        if(sender.getBalance()< amount){
-            throw new RuntimeException("Insufficient balance");
-
-        }
-        sender.setBalance(sender.getBalance()-amount);
-        receiver.setBalance(receiver.getBalance() + amount);
-
-        saveTransaction(sender, "Transfer_out", amount);
-        saveTransaction(receiver, "Transfer_in", amount);
-
-        accountRepository.save(sender);
-        accountRepository.save(receiver);
+    public void transfer(String fromAcc, String toAcc, Double amount){
+        withdraw(fromAcc, amount);
+        deposit(toAcc, amount);
 
     }
 
 
     @Override
     public Double checkBalance(String accountNumber) {
-        return getAccount(accountNumber).getBalance();
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        return account.getBalance();
     }
 
-    @Override
-    public Account getAccount(String accountNumber) {
-        return accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("Account not fount"));    }
 
-    @Override
-    public List<Transaction> getTransactions(String accountNumber) {
-        return transactionRepository.findByAccountAccountNumber(accountNumber);
-    }
-
-    private void saveTransaction(Account account, String type, Double amount){
-        Transaction transaction=new Transaction();
-        transaction.setAccount(account);
-        transaction.setType(type);
-        transaction.setAmount(amount);
-        transaction.setTransactionTime(LocalDateTime.now());
-        transactionRepository.save(transaction);
-    }
 
 }
