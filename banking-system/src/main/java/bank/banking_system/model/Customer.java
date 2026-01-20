@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Customer {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID) // generate unique UUID automatically
+
     private  String customerId;
     private String name;
     private String email;
@@ -20,4 +22,9 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Account> accounts;
+
+    //security fields
+    private String username;
+    private String password;
+    private String role;// customer, admin
 }
