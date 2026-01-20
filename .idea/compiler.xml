@@ -2,26 +2,22 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.42/8365263844ebb62398e0dc33057ba10ba472d3b8/lombok-1.18.42.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
         </processorPath>
-        <module name="banking-system.banking-system.main~1" />
+        <module name="banking-system.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="banking-system.banking-system.main" target="25" />
-      <module name="banking-system.banking-system.test" target="25" />
+    <bytecodeTargetLevel target="17">
+      <module name="banking-system.banking-system" target="25" />
+      <module name="banking-system.banking-system.main~1" target="25" />
+      <module name="banking-system.banking-system.test~1" target="25" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="banking-system.banking-system" options="-parameters" />
-      <module name="banking-system.banking-system.main" options="-parameters" />
-      <module name="banking-system.banking-system.main~1" options="-parameters" />
-      <module name="banking-system.banking-system.test" options="-parameters" />
-      <module name="banking-system.banking-system.test~1" options="-parameters" />
-    </option>
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
   </component>
 </project>
