@@ -2,14 +2,12 @@ package bank.banking_system.controller;
 
 import bank.banking_system.model.Account;
 import bank.banking_system.repository.AccountRepository;
-import bank.banking_system.service.BankService;
-//import io.swagger.v3.oas.annotations.tags.Tag;
+import bank.banking_system.service.BankService
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-//@Tag(name="Bank APIs", description = "Banking operations")
 @RestController
 @RequestMapping("/api/bank")
 @RequiredArgsConstructor
