@@ -1,5 +1,6 @@
 package bank.banking_system.controller;
 
+import bank.banking_system.dto.BankStatementResponse;
 import bank.banking_system.model.Account;
 import bank.banking_system.repository.AccountRepository;
 import bank.banking_system.service.BankService;
@@ -50,5 +51,10 @@ public class BankController {
     @GetMapping("/balance/{accountNumber}")
     public Double checkBalance(@PathVariable String accountNumber){
         return bankService.checkBalance(accountNumber);
+
+    }
+    @GetMapping("/statement/{accountNumber}")
+    public BankStatementResponse statement(@PathVariable String accountNumber){
+        return bankService.getStatement(accountNumber);
     }
 }

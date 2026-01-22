@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/transactions/**").authenticated()  // JWT required
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
