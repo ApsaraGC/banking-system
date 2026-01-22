@@ -1,5 +1,6 @@
 package bank.banking_system.service;
 
+import bank.banking_system.dto.BankStatementResponse;
 import bank.banking_system.model.Account;
 import bank.banking_system.model.Transaction;
 import bank.banking_system.repository.AccountRepository;
@@ -78,6 +79,17 @@ public class BankServiceImpl implements BankService {
         return account.getBalance();
     }
 
-
+    @Override
+    public BankStatementResponse getStatement(String accountNumber){
+        Account account =accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(()->new RuntimeException("Account not found"));
+        List<Transaction> transactions =
+                transactionRepository.findByAccount_AccountNumber(accountNumber);
+        return new BankStatementResponse(
+                account.getAccountNumber(),
+                account.getBalance(),
+                transactions
+        );
+    }
 
 }
