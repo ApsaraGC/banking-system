@@ -11,6 +11,6 @@ public interface BankService {
     Account withdraw(String accNo, Double amount);
     void transfer(String from, String to, Double amount);
     Double checkBalance(String accountNumber);
-    Account getAccount(String accountNumber);
-    List<Transaction> getTransactions(String accountNumber);
+   // Account getAccount(String accountNumber);
+//List<Transaction> getTransactions(String accountNumber);
 }
