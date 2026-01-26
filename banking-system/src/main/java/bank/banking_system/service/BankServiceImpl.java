@@ -1,12 +1,16 @@
 package bank.banking_system.service;
 
 import bank.banking_system.dto.BankStatementResponse;
+import bank.banking_system.event.TransactionNotificationEvent;
 import bank.banking_system.model.Account;
 import bank.banking_system.model.Transaction;
+import bank.banking_system.notification.NotificationType;
 import bank.banking_system.repository.AccountRepository;
 import bank.banking_system.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,7 +22,7 @@ import java.util.List;
 public class BankServiceImpl implements BankService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
-
+    private final ApplicationEventPublisher eventPublisher;
     @Override
     public Account createAccount(Account account){
         account.setBalance(0.0);
@@ -37,6 +41,14 @@ public class BankServiceImpl implements BankService {
         transaction.setType("Deposit");
         transaction.setTransactionTime(LocalDateTime.now());
         transactionRepository.save(transaction);
+
+        eventPublisher.publishEvent(
+                new TransactionNotificationEvent(
+                        account.getCustomer().getCustomerId(),
+                        NotificationType.DEPOSIT,
+                        "Rs." + amount + "deposited successfully"
+                )
+        );
 
         return account;
 
