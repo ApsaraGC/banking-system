@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findByAccount_AccountNumber(String accountNumber);
+    List<Transaction> findByAccount_Customer_CustomerIdOrderByTransactionTimeDesc(String customerId);
+
 }
